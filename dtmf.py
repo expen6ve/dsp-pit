@@ -33,7 +33,7 @@ def save_audio_file(audio_data, sample_rate, filename):
     sf.write(filename, audio_data, sample_rate)
 
 # DTMF Tone Generation
-def generate_dtmf_tone(key, sample_rate=8000, duration=0.5):
+def generate_dtmf_tone(key, sample_rate=11025, duration=0.5):
     """Generate a DTMF tone for a given key."""
     if key not in DTMF_FREQS:
         raise ValueError(f"Invalid key: {key}. Choose from 0-9, *, #.")
@@ -79,7 +79,7 @@ def plot_time_domain(audio_data, sample_rate):
     st.pyplot(plt)
 
 def plot_frequency_domain(audio_data, sample_rate):
-    """Plot the frequency-domain (FFT) spectrum with labels for dominant frequencies."""
+    """Plot the frequency-domain (FFT) spectrum."""
     fft_result = np.fft.fft(audio_data)
     freq = np.fft.fftfreq(len(audio_data), 1 / sample_rate)[:len(fft_result) // 2]
     fft_magnitude = np.abs(fft_result[:len(fft_result) // 2])
@@ -123,7 +123,7 @@ def dtmf_app():
     if uploaded_file:
         audio_data, sample_rate = read_audio_file(uploaded_file)
         st.write(f"Sampling Rate: {sample_rate} Hz")
-        st.audio(uploaded_file, format='audio/wav')
+        
 
         st.subheader("Time Domain Signal")
         plot_time_domain(audio_data, sample_rate)
